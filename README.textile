@@ -12,15 +12,15 @@ h3. assert_changes
 
 Assert that a any Ruby expression changes. Instead of: 
 <pre><code>    assert a != 'world'
-	a = 'world'
-	assert_equal 'world', a
+    a = 'world'
+    assert_equal 'world', a
 </code></pre>
 Write DRY:
 <pre><code>    include AssertChanges
     ...
-	assert_changes 'a' do
-		a = 'world'
-	end
+    assert_changes 'a' do
+        a = 'world'
+    end
 </code></pre>
 
 The string <code>'a'</code> passed to assert changes is evaluated in the block context, both before and after the block is run. The first eval is call the "pre-condition", and the
@@ -29,10 +29,10 @@ second the "post-condition".
 Assert that several things change by passing an array:
 
 <pre><code>    a,b = 'hello','hi'
-	assert_changes ['a','b'] do
-	    a = 'world'
-	    b = 'earth'
-	end
+    assert_changes ['a','b'] do
+        a = 'world'
+        b = 'earth'
+    end
 </code></pre>
 
 Be explicit about a state change by specifying both the starting and ending values using an expression pointing to array of before and after values:
