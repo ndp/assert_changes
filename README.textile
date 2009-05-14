@@ -43,12 +43,11 @@ Be explicit about a state change by specifying both the starting and ending valu
 </code></pre>    
 
 Sometimes you don't care about the original value, such as a value from the
-fixture, but you need to make sure it's starts out different than the final
+fixture, but you need to make sure it starts out different than the final
 result (otherwise the test is invalid). Pass just the final value. 
 
-When given just one value, this is the post-condition value. 
-
-The precondition is that the value does NOT equal the given value:
+When given one value, it is considered the post-condition value. 
+The precondition is that the value does NOT equal it:
 
 <pre><code>    i = true
     assert_changes 'i' => false do   # read as: i changes to false
