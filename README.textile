@@ -1,0 +1,58 @@
+h1. Assert Changes
+
+Assert that a any Ruby expression changes: 
+<code>
+    a = 'hello'
+	assert_changes 'a' do
+	    a = 'world'
+	end
+</code>
+
+Or assert that several things change:
+<code>
+    a,b = 'hello','hi'
+	assert_changes ['a','b'] do
+	    a = 'world'
+	    b = 'earth'
+	end
+</code>
+
+Get specific about the changes:
+<code>
+    i = true
+    assert_changes 'i' => false do   # read as: i changes to false
+      i = false
+    end
+</code>
+
+The string passed to assert changes is evaluated in the block context, both before and after the block is run. So this block asserts that i becomes false (and by deduction, starts out as true). It executes asserts on both ends, just like we want.
+
+Of course sometimes you want to be explicit about a state change, so you can specify both the starting and ending values using an array:
+<code>
+    o.answer = 'yes'
+    assert_changes 'o.answer' => ['yes','no'] do
+      o.answer = 'no'
+    end
+</code>    
+To handle the original example, you can pass multiple pre/post conditions of arbitrary complexity and they are all evaluated before and after the block is executed:
+<code>
+      assert_changes 'post(:a).status' => [:preview, :published],
+                            'comment(:c).status' => [:preview, :deleted] do
+        ...
+      end
+</code>    
+Finally, supports the :no_change symbol:
+<code>
+    assert_changes
+        'inotech.services.public.include?(categories(:a))' => [true, :no_change] do
+      post :edit_services_dialog, :id=>inotech.id, :service_category_id=>categories(:a).id
+    end
+</code>    
+For completeness, I added assert_no_changes, with slightly extended parameter possibilities:
+<code>
+    i,j = 'hello','hi'
+    assert_no_changes 'i' do ...  # i (before) == i (after)
+    assert_no_changes 'i'=>'hello' do ... # i == 'hello' before and after
+    assert_no_changes ['i','j'] do ... # neither i or j change
+    assert_no_changes 'i'=>'hello','j'=>'hi' do # or be explicit
+</code>    
