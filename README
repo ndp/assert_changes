@@ -1,0 +1,34 @@
+Assertion that a specific state changes during invocation of the
+passed in block.
+
+  i = 'simple'
+  assert_changes 'i' => 'whacky' do
+     i = 'whacky'
+  end
+
+This can be read "assert i changes to wacky".
+Function will verify both the precondition (i is NOT wacky),
+and the post-condition.
+
+This means i becomes nil during the block (and therefore non-nil
+ beforehand):
+  assert_changes 'i' => nil do ...
+
+
+If you want to specify a specific transition, you can do so
+by providing an array:
+
+  assert_changes 'i' => ['simple','whacky'] do
+
+To specify that there should be no changes, use the symbol :no_change.
+
+  assert_changes 'i' => :no_change do
+
+Finally, multiple assertions can be passed for larger sets
+of state changes:
+
+  i, j = 1,2
+  assert_changes 'i' => [1, 2], 'j' => [2, 1] do
+     Mixer.mix(i,j)
+  end
+
