@@ -1,7 +1,8 @@
 h1. Assert Changes
 
 This is a more general version of assert_difference, that works with values
-other than just integers.
+other than just integers. Mix into your test or test_helper to write more
+concise tests.
 
 Assert that a any Ruby expression changes: 
 <pre>
@@ -63,13 +64,16 @@ Finally, supports the :no_change symbol:
     end
 </code></pre>
 
-For completeness, I added assert_no_changes, with slightly extended parameter possibilities:
+h2. assert_no_changes
+
+assert_no_changes has slightly extended parameter possibilities:
 
 <pre>
 <code>
     i,j = 'hello','hi'
-    assert_no_changes 'i' do ...  # i (before) == i (after)
-    assert_no_changes 'i'=>'hello' do ... # i == 'hello' before and after
-    assert_no_changes ['i','j'] do ... # neither i or j change
-    assert_no_changes 'i'=>'hello','j'=>'hi' do # or be explicit
-</code></pre></pre>    
+    assert_no_changes 'i' do ...                # i (before) == i (after)
+    assert_no_changes 'i'=>'hello' do ...       # i == 'hello' before and after
+    assert_no_changes ['i','j'] do ...          # neither i nor j change
+    assert_no_changes 'i'=>'hello','j'=>'hi' do # or be explicit with multiple
+</code></pre>
+
