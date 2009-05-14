@@ -1,24 +1,29 @@
+h1 Assert Changes Test Helpers
 
+assert_changes is a more general version of assert_difference test helper.
+Whereas assert_difference is numerical only, and can only assert that integer
+counts have changed, assert_changes evaluates pre- and post- conditions for
+any ruby type. It can evaluate boolean expressions, as well as Strings or
+any objects that can evaluated for equality. 
 
-h2 assert_changes
+Mix into your test or test_helper to write more concise tests.
 
-assert_changes is a more general version of assert_difference, that works with values
-other than just integers. Mix into your test or test_helper to write more
-concise tests.
+h3. assert_changes
 
 Assert that a any Ruby expression changes: 
+<pre><code>    assert a != 'world'
+	a = 'world'
+	assert_equal 'world', a
+</code></pre>
+can be rewritten DRY:
 <pre><code>    include AssertChanges
-    
     ...
-
-	a = 'hello'
 	assert_changes 'a' do
 		a = 'world'
 	end
-
 </code></pre>
 
-Or assert that several things change by separating them with commas:
+Assert that several things change by passing an array:
 
 <pre><code>    a,b = 'hello','hi'
 	assert_changes ['a','b'] do
@@ -27,23 +32,25 @@ Or assert that several things change by separating them with commas:
 	end
 </code></pre>
 
-Get specific about the changes:
-<pre><code>    i = true
-    assert_changes 'i' => false do   # read as: i changes to false
-      i = false
-    end
-</code></pre>
-
-The string passed to assert changes is evaluated in the block context, both before and after the block is run. So this block asserts that i becomes false (and by deduction, starts out as true). It executes asserts on both ends, just like we want.
-
-Of course sometimes you want to be explicit about a state change, so you can specify both the starting and ending values using an array:
+Be explicit about a state change by specifying both the starting and ending values using an expression pointing to array of before and after values:
 <pre><code>    o.answer = 'yes'
     assert_changes 'o.answer' => ['yes','no'] do
       o.answer = 'no'
     end
 </code></pre>    
 
-To handle the original example, you can pass multiple pre/post conditions of arbitrary complexity and they are all evaluated before and after the block is executed:
+Pass just one value and it the precondition is that the value does not equals this,
+and the post-condition is that it now equals the specified value:
+
+<pre><code>    i = true
+    assert_changes 'i' => false do   # read as: i changes to false
+      i = false
+    end
+</code></pre>
+
+The strings passed to assert changes is evaluated in the block context, both before and after the block is run. 
+
+Pass multiple pre/post conditions of arbitrary complexity:
 
 <pre><code>      assert_changes 'post(:a).status' => [:preview, :published],
                             'comment(:c).status' => [:preview, :deleted] do
@@ -51,7 +58,9 @@ To handle the original example, you can pass multiple pre/post conditions of arb
       end
 </code></pre>    
 
-Finally, supports the :no_change symbol:
+h3. assert_no_changes
+
+assert_changes supports the :no_change symbol:
 
 <pre><code>    assert_changes
         'inotech.services.public.include?(categories(:a))' => [true, :no_change] do
@@ -59,9 +68,7 @@ Finally, supports the :no_change symbol:
     end
 </code></pre>
 
-h2. assert_no_changes
-
-assert_no_changes has slightly extended parameter possibilities:
+assert_no_changes is a modified version of this. It has slightly extended parameter possibilities:
 
 <pre><code>    i,j = 'hello','hi'
     assert_no_changes 'i' do ...                # i (before) == i (after)
