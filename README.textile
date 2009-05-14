@@ -1,4 +1,4 @@
-h1 Assert Changes Test Helpers
+h1. Assert Changes Test Helpers
 
 assert_changes is a more general version of assert_difference test helper.
 Whereas assert_difference is numerical only, and can only assert that integer
@@ -23,6 +23,8 @@ can be rewritten DRY:
 	end
 </code></pre>
 
+The string <code>'a'</code> passed to assert changes is evaluated in the block context, both before and after the block is run. 
+
 Assert that several things change by passing an array:
 
 <pre><code>    a,b = 'hello','hi'
@@ -39,16 +41,14 @@ Be explicit about a state change by specifying both the starting and ending valu
     end
 </code></pre>    
 
-Pass just one value and it the precondition is that the value does not equals this,
-and the post-condition is that it now equals the specified value:
+When given just one value, the precondition is that the value does NOT equal the value;
+the post-condition is that it now equals the specified value:
 
 <pre><code>    i = true
     assert_changes 'i' => false do   # read as: i changes to false
       i = false
     end
 </code></pre>
-
-The strings passed to assert changes is evaluated in the block context, both before and after the block is run. 
 
 Pass multiple pre/post conditions of arbitrary complexity:
 
