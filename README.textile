@@ -1,16 +1,24 @@
-h1. Assert Changes
 
-This is a more general version of assert_difference, that works with values
+
+h2 assert_changes
+
+assert_changes is a more general version of assert_difference, that works with values
 other than just integers. Mix into your test or test_helper to write more
 concise tests.
 
 Assert that a any Ruby expression changes: 
 <pre>
 <code>
+
+    include AssertChanges
+    
+    ...
+
 	a = 'hello'
 	assert_changes 'a' do
-	    a = 'world'
+		a = 'world'
 	end
+
 </code></pre>
 
 Or assert that several things change by separating them with commas:
