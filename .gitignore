@@ -1,0 +1,12 @@
+.DS_Store
+.svn/all-wcprops
+.svn/entries
+.svn/format
+lib/.svn/all-wcprops
+lib/.svn/entries
+lib/.svn/format
+lib/.svn/text-base/assert_changes.rb.svn-base
+test/.svn/all-wcprops
+test/.svn/entries
+test/.svn/format
+test/.svn/text-base/assert_changes_test.rb.svn-base
