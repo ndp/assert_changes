@@ -9,7 +9,6 @@ concise tests.
 Assert that a any Ruby expression changes: 
 <pre>
 <code>
-
     include AssertChanges
     
     ...
